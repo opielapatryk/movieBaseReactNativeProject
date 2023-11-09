@@ -3,7 +3,6 @@ import { View } from 'react-native';
 import { styles } from './styles/styles';
 import { MovieSearchPage } from './components/MovieSearchPage';
 
-
 export default function App() {
   return (
     <View style={styles.container}>
@@ -12,5 +11,3 @@ export default function App() {
     </View>
   );
 }
-
-
