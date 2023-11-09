@@ -10,9 +10,8 @@ export const MovieSearchPage = props => {
       <Text>Welcome in Movie Browser!</Text>
       <Text>Search for any movie to see more data</Text>
       <TextInput placeholder='Title' style={styles.input} onChangeText={newMovieTitle=>setMovieTitle(newMovieTitle)}/>
-      <Text>{movieTitle}</Text>
       <ScrollView>
-        {search['Search'].map((item) => <Button key={item['imdbID']} title={item['Title']}/>)}
+        {search['Search'].filter((item)=> item.Title.toLowerCase().includes(movieTitle.toLowerCase())).map((item) => <Button key={item['imdbID']} title={item['Title']}/>)}
       </ScrollView>
     </View>
   );
