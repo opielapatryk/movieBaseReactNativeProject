@@ -31,7 +31,6 @@ export function DetailsScreen({ route }) {
 
   return (
     <View>
-      <Text>Hello from details screen</Text>
       {isLoading ? (
         <Text>Loading...</Text>
       ) : isMovieFound ? (
