@@ -1,26 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import { styles } from '../styles/styles';
+import { fetchMovieDetails } from './api';
 
 export function DetailsScreen({ route }) {
   const { movie } = route.params;
   const [movieDetails, setMovieDetails] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  const fetchMovieDetails = async () => {
-    try {
-      const response = await fetch(`https://www.omdbapi.com/?apikey=b32be2df&t=${movie['Title']}`);
-      const data = await response.json();
-      data.Response === 'True' && setMovieDetails(data);
-    } catch (error) {
-      console.error('Error fetching movie details:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   useEffect(() => {
-    fetchMovieDetails();
+    const fetchData = async () => {
+      const details = await fetchMovieDetails(movie['Title']);
+      setMovieDetails(details);
+      setIsLoading(false);
+    };
+
+    fetchData();
   }, [movie]);
 
   return (

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Text, TextInput, View, Button, ScrollView, ActivityIndicator } from 'react-native';
 import { styles } from '../styles/styles';
+import {fetchMoviesByTitle} from './api'
 
 export function MovieSearchPage({ navigation }) {
   const [movieTitle, setMovieTitle] = useState('');
@@ -10,20 +11,12 @@ export function MovieSearchPage({ navigation }) {
   const fetchMovies = async () => {
     try {
       setIsLoading(true);
-      const response = await fetch(`https://www.omdbapi.com/?apikey=b32be2df&s=${movieTitle}`);
-      const result = await response.json();
-
-      if (result.Response === 'True') {
-        setSearchResults(result.Search);
-      } else {
-        setSearchResults([]);
-      }
-    } catch (error) {
-      console.error(error);
+      const results = await fetchMoviesByTitle(movieTitle);
+      setSearchResults(results);
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   return (
     <View style={styles.container}>
@@ -36,7 +29,10 @@ export function MovieSearchPage({ navigation }) {
       />
       <Button title="Search" onPress={fetchMovies} />
       <ScrollView>
-        {isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : searchResults.map((item) => (
+        {isLoading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          searchResults.map((item) => (
             <Button
               onPress={() =>
                 navigation.push('Movie Details', {
@@ -46,7 +42,8 @@ export function MovieSearchPage({ navigation }) {
               key={item['imdbID']}
               title={item['Title']}
             />
-          ))}
+          ))
+        )}
         {!isLoading && searchResults.length === 0 && <Text>No results found</Text>}
       </ScrollView>
     </View>
