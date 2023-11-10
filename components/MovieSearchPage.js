@@ -7,7 +7,7 @@ export function MovieSearchPage({ navigation }) {
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  async function fetchMovies() {
+  const fetchMovies = async () => {
     try {
       setIsLoading(true);
       const response = await fetch(`https://www.omdbapi.com/?apikey=b32be2df&s=${movieTitle}`);
