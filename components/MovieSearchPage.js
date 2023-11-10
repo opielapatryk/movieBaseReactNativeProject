@@ -36,9 +36,7 @@ export function MovieSearchPage({ navigation }) {
       />
       <Button title="Search" onPress={fetchMovies} />
       <ScrollView>
-        {isLoading && <ActivityIndicator size="large" color="#0000ff" />}
-        {!isLoading &&
-          searchResults.map((item) => (
+        {isLoading ? <ActivityIndicator size="large" color="#0000ff" /> : searchResults.map((item) => (
             <Button
               onPress={() =>
                 navigation.push('Movie Details', {

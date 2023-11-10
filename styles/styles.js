@@ -15,5 +15,8 @@ export const styles = StyleSheet.create({
     width:200,
     margin:12,
     padding:10
+  },
+  detailView:{
+    marginBottom:40
   }
 });
