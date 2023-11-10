@@ -7,21 +7,26 @@ export function DetailsScreen({ route }) {
   const [isMovieFound, setIsMovieFound] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    fetch(`https://www.omdbapi.com/?apikey=b32be2df&t=${movie['Title']}`)
-      .then(response => response.json())
-      .then(data => {
-        if (data.Response === 'True') {
-          setMovieDetails(data);
-        } else {
-          setIsMovieFound(false);
-        }
-      })
-      .catch(error => {
-        console.error('Error fetching movie details:', error);
+  const fetchMovieDetails = async () => {
+    try {
+      const response = await fetch(`https://www.omdbapi.com/?apikey=b32be2df&t=${movie['Title']}`);
+      const data = await response.json();
+
+      if (data.Response === 'True') {
+        setMovieDetails(data);
+      } else {
         setIsMovieFound(false);
-      })
-      .finally(() => setIsLoading(false));
+      }
+    } catch (error) {
+      console.error('Error fetching movie details:', error);
+      setIsMovieFound(false);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchMovieDetails();
   }, [movie]);
 
   return (
